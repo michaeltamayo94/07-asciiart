@@ -1,3 +1,5 @@
+"""Encodage RLE simple : liste de tuples (caractère, occurrences consécutives)."""
+
 #### Imports et définition des variables globales
 
 # Mandatory for the recursive solution to work on large inputs
@@ -9,45 +11,43 @@ sys.setrecursionlimit(2000)
 
 
 def artcode_i(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme itératif
-
-    Args:
-        s (str): la chaîne de caractères à encoder
-
-    Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
-    """
-    
-    # votre code ici
-
-    return [ ]
+    """Retourne la liste de tuples encodant la chaîne s (version itérative)."""
+    if not s:
+        return []
+    chars = [s[0]]
+    counts = [1]
+    for ch in s[1:]:
+        if ch == chars[-1]:
+            counts[-1] += 1
+        else:
+            chars.append(ch)
+            counts.append(1)
+    return list(zip(chars, counts))
 
 
 def artcode_r(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme récursif
-
-    Args:
-        s (str): la chaîne de caractères à encoder
-
-    Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
-    """
-    
-    # votre code ici
-
+    """Retourne la liste de tuples encodant la chaîne s (version récursive)."""
     # cas de base
-    # recherche nombre de caractères identiques au premier
-    # appel récursif
+    if not s:
+        return []
+    # recherche du nombre de caractères identiques au premier
+    first = s[0]
+    i = 0
+    n = len(s)
+    while i < n and s[i] == first:
+        i += 1
+    # construction du résultat et appel récursif sur le reste
+    return [(first, i)] + artcode_r(s[i:])
 
-    return []
-    
 
 #### Fonction principale
 
 
 def main():
+    """Point d'entrée : tests simples d'exécution."""
     print(artcode_i('MMMMaaacXolloMM'))
     print(artcode_r('MMMMaaacXolloMM'))
+
 
 if __name__ == "__main__":
     main()
